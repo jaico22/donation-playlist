@@ -17,13 +17,16 @@ func main() {
 	// Routes
 	router.HandleFunc("/api/users/{facebookUserId}", userController)
 
-	fmt.Println("Listening on http://127.0.0.1:3000")
-	if err := http.ListenAndServe(":3000", router); err != nil {
+	fmt.Println("Listening on port 5000")
+	if err := http.ListenAndServe(":5000", router); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func userController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	requestVars := mux.Vars(r)
 	facebookUserId := requestVars["facebookUserId"]
 	if r.Method == http.MethodPost {
